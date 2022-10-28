@@ -57,6 +57,12 @@ class Account (AbstractBaseUser, PermissionsMixin) :
 
     objects = AccountManager()
 
+    def get_full_name(self):
+        full_name = f"{self.last_name} {self.first_name}"
+        return full_name.strip()
+
+    def __str__(self):
+        return self.get_full_name()
 
 """
 Note : superuser and staff fields are used in django admin and djang auth apps
