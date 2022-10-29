@@ -3,6 +3,7 @@ Django settings for ESTC Absence Management project.
 
 """
 
+from importlib import import_module
 import environ
 from pathlib import Path
 
@@ -35,12 +36,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+# Externals
+    'rest_framework',
+    'corsheaders',
 # Local apps
     'backend.core',
     'backend.account',
     'backend.modules',
-    'backend.students'
+    'backend.students',
+    'backend.session',
+    'backend.api',
+    'backend.api.auth',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +137,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'account.Account'
+
+# Rest Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
+}
