@@ -1,8 +1,10 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import AbstractUser, PermissionsMixin, UserManager
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.crypto import get_random_string
+
+from backend.core.models import Person
 
 ACCOUNT_ID_LENGTH = 20
 
@@ -41,11 +43,8 @@ class AccountManager (BaseUserManager) :
         return self._create_user(email, password, **extra_fields)
 
 
-class Account (AbstractBaseUser, PermissionsMixin) :
+class Account (Person, AbstractBaseUser, PermissionsMixin) :
     id = models.CharField("ID", primary_key=True, default=generate_id, max_length=ACCOUNT_ID_LENGTH)
-    email = models.EmailField("email", max_length=150, unique=True)
-    first_name = models.CharField("first name", max_length=150, blank=True)
-    last_name = models.CharField("last name", max_length=150, blank=True)
     is_admin = models.BooleanField("admin status", default=False)
 
     # Django admin fields
