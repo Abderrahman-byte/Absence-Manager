@@ -1,9 +1,16 @@
-import './App.css'
+import React from 'react'
+import { Routes, Route } from 'react-router'
+
+import LoginPage from './pages/login.page'
+import MainPages from './pages/main.pages'
 
 const App = () => {
 	return (
 		<div className='App'>
-			<h1>Hello from Abderrahmane</h1>
+			<Routes>
+				<Route path='login' element={<LoginPage />} />
+				<Route index element={<MainPages />} />
+			</Routes>
 		</div>
 	)
 }

@@ -1,0 +1,8 @@
+.LoginForm {
+    max-width: 600px;
+    width: 100%;
+}   
+
+.LoginForm .submit-btn {
+    width: 100%;
+}
