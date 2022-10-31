@@ -1,4 +1,3 @@
-from operator import mod
 from django.db import models
 
 from backend.account.models import Account
@@ -42,7 +41,7 @@ class Faculty (models.Model) :
         return self.short_name or self.name
 
 class Module (models.Model) :
-    name = models.CharField("name", unique=True, max_length=100)
+    name = models.CharField("name", max_length=100)
     description = models.TextField("description", blank=True, null=True)
 
     faculty = models.ForeignKey(
@@ -51,11 +50,16 @@ class Module (models.Model) :
         on_delete=models.CASCADE
     )
 
+    class Meta :
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'faculty'], name='unique_module_per_faculty')
+        ]
+
     def __str__(self):
-        return self.name
+        return f'{self.faculty}: {self.name}'
 
 class ModuleElement (models.Model) :
-    name = models.CharField("name", unique=True, max_length=100)
+    name = models.CharField("name", max_length=100)
     description = models.TextField("description", blank=True, null=True)
 
     module = models.ForeignKey(
@@ -75,6 +79,9 @@ class ModuleElement (models.Model) :
     class Meta :
         verbose_name = "element"
         verbose_name_plural = "elements"
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'module'], name='unique_element_per_module')
+        ]
 
     def __str__(self):
-        return self.name
+        return f'{self.module.faculty}: {self.module.name}/{self.name}'
