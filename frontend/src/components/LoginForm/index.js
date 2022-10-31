@@ -1,15 +1,21 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import { login } from '@Services/authentication'
-import { DEFAULT_ERROR_MSG, JWT_TOKEN_KEY } from '@Utils/env'
+import { DEFAULT_ERROR_MSG } from '@Utils/env'
+import { useLocation, useNavigate } from 'react-router'
+import { AuthContext } from '@Context/AuthContext'
 
 import './styles.css'
 
 // ! add form validation
 
 const LoginForm = () => {
+    const { authenticate } = useContext(AuthContext)
     const [data, setData] = useState({email: '', password: ''})
     const [errors, setErrors] = useState([])
+
+    const location = useLocation()
+    const navigate = useNavigate()
 
     const fieldChanged = (e) => {
         const {name, value} = e.target
@@ -27,11 +33,11 @@ const LoginForm = () => {
 
         const [response, error] = await login(data.email, data.password)
 
-        if (!response && !error) setErrors([DEFAULT_ERROR_MSG])
-        else if (!response) setErrors([error?.detail || DEFAULT_ERROR_MSG])
-        else {
-            localStorage.setItem(JWT_TOKEN_KEY, JSON.stringify(response))
-        }
+        if (!response && !error) return setErrors([DEFAULT_ERROR_MSG])
+        else if (!response) return setErrors([error?.detail || DEFAULT_ERROR_MSG])
+
+        authenticate(response)
+        navigate(location?.state?.next_url || '/')
     }
 
     return (
@@ -66,7 +72,7 @@ const LoginForm = () => {
                 {errors.length > 0 ? (
                     <div className='errors'>
                         <div className='alert alert-danger'>
-                            {errors.map(err => <p>{err}</p>)}
+                            {errors.map((err, i) => <p key={i}>{err}</p>)}
                         </div>
                     </div>
                 ) : null}

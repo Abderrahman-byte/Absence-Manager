@@ -1,4 +1,4 @@
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 
 class AccountTokenObtainPairSerializer (TokenObtainPairSerializer):
     @classmethod
@@ -6,6 +6,14 @@ class AccountTokenObtainPairSerializer (TokenObtainPairSerializer):
         token = super().get_token(user)
 
         token['email'] = user.email
-        token['is_admin'] = user.is_admin
+
+        return token
+
+class AccountTokenRefreshSerializer (TokenRefreshSerializer):
+    @classmethod
+    def get_token (cls, user) :
+        token = super().get_token(user)
+
+        token['email'] = user.email
 
         return token
