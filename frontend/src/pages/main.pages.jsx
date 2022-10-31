@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import AppHeader from '@Components/AppHeader'
 import { AuthContext } from '@Context/AuthContext'
+import Navbar from '@Components/Navbar'
+import AccountDropdown from '@Components/AccountDropodown'
 
 const MainPages = () => {
     const { getAccountInfo } = useContext(AuthContext)
@@ -17,20 +18,16 @@ const MainPages = () => {
     }, [])
 
     if (account === undefined) return <></>
-
-    if (account?.is_admin) {
-        return (
-            <div className='MainPage'>
-                <AppHeader />
-                <p>If you enter this page, that means you're admin</p>
-            </div>
-        )
-    }
-
+    
     return (
-        <div className='MainPage'>
-            <AppHeader />
-            <p>If you enter this page, that means you're authenticated</p>
+        <div className='MainPage d-flex flex-nowrap'>
+            <Navbar>
+                <AccountDropdown username={account?.last_name + ' ' + account?.first_name} />
+            </Navbar>
+            {account?.is_admin ?
+                <p>If you enter this page, that means you're admin</p> 
+                : <p>If you enter this page, that means you're authenticated</p>
+            }
         </div>
     )
 }
