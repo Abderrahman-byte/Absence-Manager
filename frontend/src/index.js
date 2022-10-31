@@ -7,13 +7,16 @@ import 'bootstrap/dist/js/bootstrap'
 
 import './styles/index.css'
 import App from './App'
+import { AuthProvider } from '@Context/AuthContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(
 	<React.StrictMode>
 		<BrowserRouter>
-			<App />
+			<AuthProvider>
+				<App />
+			</AuthProvider>
 		</BrowserRouter>
 	</React.StrictMode>
 )

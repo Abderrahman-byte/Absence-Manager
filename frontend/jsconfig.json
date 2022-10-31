@@ -10,6 +10,15 @@
       ],
       "@Styles/*": [
         "./src/styles/*"
+      ],
+      "@Context/*": [
+        "./src/context/*"
+      ],
+      "@Services/*": [
+        "./src/services/*"
+      ],
+      "@Utils/*": [
+        "./src/utils/*"
       ]
     }
   },
