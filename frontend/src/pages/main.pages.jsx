@@ -1,5 +1,7 @@
-import { AuthContext } from '@Context/AuthContext'
 import React, { useContext, useEffect, useState } from 'react'
+
+import AppHeader from '@Components/AppHeader'
+import { AuthContext } from '@Context/AuthContext'
 
 const MainPages = () => {
     const { getAccountInfo } = useContext(AuthContext)
@@ -19,6 +21,7 @@ const MainPages = () => {
     if (account?.is_admin) {
         return (
             <div className='MainPage'>
+                <AppHeader />
                 <p>If you enter this page, that means you're admin</p>
             </div>
         )
@@ -26,6 +29,7 @@ const MainPages = () => {
 
     return (
         <div className='MainPage'>
+            <AppHeader />
             <p>If you enter this page, that means you're authenticated</p>
         </div>
     )
