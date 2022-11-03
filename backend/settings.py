@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'backend.session',
     'backend.api',
     'backend.api.auth',
+    'backend.api.teacher',
 ]
 
 MIDDLEWARE = [

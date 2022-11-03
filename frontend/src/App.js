@@ -10,7 +10,7 @@ const App = () => {
 		<div className='App'>
 			<Routes>
 				<Route path='login' element={<LoginPage />} />
-				<Route index element={<AuthenticatedOnly><MainPages /></AuthenticatedOnly>} />
+				<Route path='*' index element={<AuthenticatedOnly><MainPages /></AuthenticatedOnly>} />
 			</Routes>
 		</div>
 	)

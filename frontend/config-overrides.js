@@ -8,6 +8,7 @@ module.exports = function override(config) {
 		'@Context': 'src/context',
 		'@Services': 'src/services',
 		'@Utils': 'src/utils',
+		'@Routes': 'src/routes'
 	})(config)
 
 	return config

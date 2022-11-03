@@ -1,6 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
+// This should be generic
+
 const Navbar = ({ children }) => {
     return (
         <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style={{ width: "280px" }}>
@@ -10,13 +12,13 @@ const Navbar = ({ children }) => {
         <hr/>
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item">
-            <NavLink to='/' className='nav-link text-white'>Elements</NavLink>
+            <NavLink to='/elements' className='nav-link text-white'>Elements</NavLink>
           </li>
           <li>
-            <NavLink to='/dashboard' className='nav-link text-white'>Filières</NavLink>
+            <NavLink to='/faculty' className='nav-link text-white'>Filières</NavLink>
           </li>
           <li>
-            <NavLink to='/orders' className='nav-link text-white'>Séances</NavLink>
+            <NavLink to='/sessions' className='nav-link text-white'>Séances</NavLink>
           </li>
         </ul>
         <hr/>

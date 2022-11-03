@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 
 from backend.modules.models import ModuleElement
@@ -19,6 +20,14 @@ class StudySession (models.Model) :
             models.UniqueConstraint(fields=['element', 'date', 'start_at'], name='one_session_starts_at_a_time'),
             models.CheckConstraint(check=models.Q(end_at__gt=models.F('start_at')), name='check_start_time')
         ]
+
+    def get_delta_time (self):
+        start_date = datetime.combine(self.date, self.start_at)
+        end_date = datetime.combine(self.date, self.end_at)
+        return end_date - start_date
+
+    def get_hours (self) :
+        return self.get_delta_time().seconds // 3600
 
     def __str__(self):
         return f"{str(self.element.module.faculty)} - {self.element.name} - {self.date} from {self.start_at} to {self.end_at}"
