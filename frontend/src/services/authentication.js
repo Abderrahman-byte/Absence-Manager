@@ -51,6 +51,15 @@ const refreshToken = async () => {
     }
 }
 
+export const blacklistToken = async (authTokens) => {
+    try {
+        const response = await axiosDefaultApi.post('/auth/token/blacklist', authTokens)
+        if (response.status >= 200 && response.status < 300) return true
+    } catch {}
+
+    return false
+}
+
 export const memorizedRefreshToken = mem(refreshToken, {
     maxAge: JWT_TTL
 })

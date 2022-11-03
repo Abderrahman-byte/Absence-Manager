@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { verifyAuth } from '@Services/authentication'
+import { blacklistToken, verifyAuth } from '@Services/authentication'
 import { JWT_TOKEN_KEY } from '@Utils/env'
 import { parseJWT } from '@Utils/generic'
 import { getAccountInfo as getAccountInfoRemote } from '@Services/account'
@@ -39,12 +39,33 @@ export const AuthProvider = ({ children }) => {
         setAuthenticationData(parseJWT(authToken?.refresh))
     }
 
+    const logout = async () => {
+        const authTokenStr = localStorage.getItem(JWT_TOKEN_KEY)
+
+        if (!authTokenStr) return
+
+        const authTokens = JSON.parse(authTokenStr)
+
+        await blacklistToken(authTokens)
+
+        localStorage.removeItem(JWT_TOKEN_KEY)
+        setAuthenticated(false)
+        setUserClaims(null)
+        setAccountInfo(null)
+    }
+
     useEffect(() => {
         checkAuthentication()
     }, [])
 
     return (
-        <AuthContext.Provider value={{ authenticated, userClaims, authenticate, getAccountInfo }}>
+        <AuthContext.Provider value={{ 
+            authenticated, 
+            userClaims, 
+            authenticate, 
+            getAccountInfo, 
+            logout 
+        }}>
             {children}
         </AuthContext.Provider>
     )
