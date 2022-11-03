@@ -5,12 +5,12 @@ from django.db import models
 from django.utils.crypto import get_random_string
 
 from backend.core.models import Person
+from backend.core.utils import generate_str
 
 ACCOUNT_ID_LENGTH = 20
 
 def generate_id () :
-    allowed_chars="abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"
-    return get_random_string(ACCOUNT_ID_LENGTH, allowed_chars)
+    return generate_str(ACCOUNT_ID_LENGTH)
 
 class AccountManager (BaseUserManager) :
     use_in_migrations = True

@@ -4,7 +4,7 @@ from django.http.response import Http404
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 
-from backend.core.generics import AuthenticatedOnlyViewAPI
+from backend.core.views import AuthenticatedOnlyViewAPI
 from backend.modules.serializers import ElementStudentsAbsenceStat, ModuleElementSerializer, FacultySerializer, SimpleModuleElementSerializer
 from backend.students.serializers import StudentSerializer
 from backend.modules.models import Faculty, ModuleElement

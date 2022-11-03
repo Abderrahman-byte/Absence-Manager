@@ -25,7 +25,7 @@ class AccountCreationForm (forms.ModelForm) :
 
     class Meta:
         model = Account
-        fields = ("email","first_name", "last_name")
+        fields = ("email","first_name", "last_name", "is_admin")
         field_classes = {"email": forms.EmailField}
 
     def clean_password2 (self):

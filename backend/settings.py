@@ -45,10 +45,11 @@ INSTALLED_APPS = [
     'backend.account',
     'backend.modules',
     'backend.students',
-    'backend.session',
+    'backend.session', # Refering to Study Session
     'backend.api',
     'backend.api.auth',
     'backend.api.teacher',
+    'backend.api.admin',
 ]
 
 MIDDLEWARE = [
