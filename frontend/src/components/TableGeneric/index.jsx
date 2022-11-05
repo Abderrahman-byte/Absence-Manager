@@ -1,7 +1,7 @@
 import React from 'react'
 import Row from './row'
 
-const ElementStudentsTable = ({ colomns, data }) => {
+const TableGeneric = ({ colomns, data = [] }) => {
     return (
         <table className='table table-dark table-striped'>
             <thead>
@@ -16,4 +16,4 @@ const ElementStudentsTable = ({ colomns, data }) => {
     )
 }
 
-export default ElementStudentsTable
+export default TableGeneric

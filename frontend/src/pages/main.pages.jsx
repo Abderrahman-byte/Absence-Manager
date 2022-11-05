@@ -2,9 +2,34 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { AuthContext } from '@Context/AuthContext'
 import Navbar from '@Components/Navbar'
-import AccountDropdown from '@Components/AccountDropodown'
 import AdminRoutes from '@Routes/admin.routes'
 import UserRoutes from '@Routes/user.routes'
+
+const userRoutes = [
+	{
+		to: '/elements',
+		label: 'Elements',
+	},
+	{
+		label: 'Filières',
+		to: '/faculty',
+	},
+	{
+		to: '/sessions',
+		label: 'Séances',
+	},
+]
+
+const adminRoutes = [
+	{
+		to: '',
+		label: 'Main',
+	},
+	{
+		label: 'Accounts',
+		to: '/accounts',
+	},
+]
 
 const MainPages = () => {
     const { getAccountInfo } = useContext(AuthContext)
@@ -23,9 +48,7 @@ const MainPages = () => {
     
     return (
         <div className='MainPage d-flex flex-nowrap'>
-            <Navbar>
-                <AccountDropdown username={account?.last_name + ' ' + account?.first_name} />
-            </Navbar>
+            <Navbar navLinks={account?.is_admin ? adminRoutes : userRoutes} account={account} />
             <div className='content p-3 pb-5'>
                 {account?.is_admin ? <AdminRoutes />: <UserRoutes />}
             </div>

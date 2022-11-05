@@ -1,12 +1,21 @@
 import React from 'react'
+import { Route, Routes } from 'react-router'
 
+import AccountsPage from '@Pages/accounts.page'
 
 const AdminRoutes = () => {
-    return (
-        <div>
-            <h6>Admin app is not implement yet</h6>
-        </div>
-    )
+	return (
+		<Routes>
+			<Route index
+				element={
+					<div>
+						<h6>Main page is not implement yet</h6>
+					</div>
+				}
+			/>
+            <Route path='/accounts' element={<AccountsPage />} />
+		</Routes>
+	)
 }
 
 export default AdminRoutes
