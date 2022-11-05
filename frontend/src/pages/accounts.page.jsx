@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import AccountsList from '@Components/AccountsList'
-import { getAccountsList } from '@Services/accounts.admin'
+import { getAccountsList, searchAccounts } from '@Services/accounts.admin'
+import AccountSearchForm from '@Components/AccountSearchForm'
+
+// TODO : add filter admin only on main list
 
 const AccountsPage = () => {
     const [accounts, setAccounts] = useState([])
@@ -9,6 +12,8 @@ const AccountsPage = () => {
     const [hasPrevious, setHasPrevious] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [searchValue, setSearchvalue] = useState(null)
+    const [searchResults, setSearchResults] = useState({})
+    const [adminOnly, setAdminOnly] = useState(false)
     const itemsPerPage = 10
 
     const fetchAccountsData = async () => {
@@ -18,10 +23,42 @@ const AccountsPage = () => {
         setHasPrevious(data.previous ? true : false)
     }
 
+    const updateSearchResults = () => {
+        if (!searchValue || searchValue.length <= 0 || searchValue in searchResults) return
+
+        const cached = searchValue
+
+        setTimeout(async () => {
+            if (searchValue !== cached) return
+
+            const data = await searchAccounts(searchValue, itemsPerPage)
+
+            if (!data) return
+
+            setSearchResults(prev => {
+                prev[searchValue] = [...data]
+                return {...prev}
+            })
+        }, 500)
+    }
+
     const nextPage = () => setCurrentPage(currentPage + 1)
     const previousPage = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1)
     }
+
+    const accountsData = useMemo(() => {
+        const accountsList = !searchValue || searchValue.length <= 0 ? 
+            accounts : 
+            (searchResults[searchValue] || [])
+
+        
+        return adminOnly ? accountsList.filter(account => account.is_admin) : accountsList 
+    }, [accounts, searchValue, adminOnly])
+
+    useEffect(() => {
+        updateSearchResults()
+    }, [searchValue])
 
     useEffect(() => {
         fetchAccountsData()
@@ -31,18 +68,15 @@ const AccountsPage = () => {
         <div className='AccountPage'>
             <h2 className='mb-3'>Accounts Page</h2>
 
-            <div className='mb-2'>
-                <input 
-                    value={searchValue} 
-                    onChange={e => setSearchvalue(e.target.value)} 
-                    type='text' 
-                    className='form-control' 
-                    placeholder='Rechercher les comptes' 
-                />
-            </div>
+            <AccountSearchForm 
+                searchValue={searchValue} 
+                adminOnly={adminOnly}
+                setSearchvalue={setSearchvalue} 
+                setAdminOnly={setAdminOnly}
+            />
 
             <AccountsList 
-                accounts={searchValue ? [] : accounts} 
+                accounts={accountsData} 
                 hasNext={searchValue ? false : hasNext} 
                 hasPrevious={searchValue ? false : hasPrevious} 
                 nextPage={nextPage} 

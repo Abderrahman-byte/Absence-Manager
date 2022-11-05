@@ -7,5 +7,14 @@ export const getAccountsList = async (page=1, size = 10) => {
         return response.data
     } catch {}
 
-    return []
+    return {results: []}
+}
+
+export const searchAccounts = async (query, size=10) => {
+    try {
+        const response = await axiosApi.get(`/admin/accounts/search?page_size=${size}&query=${query}`)
+        return response.data
+    } catch {}
+
+    return null
 }
