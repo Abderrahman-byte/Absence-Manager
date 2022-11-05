@@ -54,7 +54,7 @@ class AccountAdminSearch (AdminOnlyAPIView) :
 
     def get(self, request, *args, **kwargs) :
         query = request.query_params['query']
-        page_size = request.query_params.get('page_size', 10)
+        page_size = int(request.query_params.get('page_size', 10))
         admin_only = request.query_params.get('admin_only', False)
         words = query.split(' ')
 

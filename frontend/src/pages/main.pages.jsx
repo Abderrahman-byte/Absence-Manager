@@ -23,10 +23,10 @@ const userRoutes = [
 const adminRoutes = [
 	{
 		to: '',
-		label: 'Main',
+		label: 'Principale',
 	},
 	{
-		label: 'Accounts',
+		label: 'Gestion des Comptes',
 		to: '/accounts',
 	},
 ]

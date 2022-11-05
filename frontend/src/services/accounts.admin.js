@@ -18,3 +18,16 @@ export const searchAccounts = async (query, size=10) => {
 
     return null
 }
+
+export const getAccount = async (id) => {
+    try {
+        const response = await axiosApi.get(`/admin/accounts/${id}`)
+        return response.data
+    } catch {}
+
+    return null
+}
+
+export const deleteAccount = async (id) => {
+    await axiosApi.delete(`/admin/accounts/${id}`)
+}

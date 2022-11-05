@@ -16,7 +16,7 @@ Serializer gives the user to edit email and is_admin fields
 Must be used by admins only.
 Maybe find a solution to unify the two with keeping permission stuff
 """
-# TODO : update password
+# TODO : change password
 class AdminAccountSerializer (serializers.ModelSerializer):
     class Meta :
         model = Account

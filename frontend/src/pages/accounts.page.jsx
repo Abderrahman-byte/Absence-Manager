@@ -66,7 +66,7 @@ const AccountsPage = () => {
 
     return (
         <div className='AccountPage'>
-            <h2 className='mb-3'>Accounts Page</h2>
+            <h2 className='mb-4'>Administration des comptes</h2>
 
             <AccountSearchForm 
                 searchValue={searchValue} 
