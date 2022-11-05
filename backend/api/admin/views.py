@@ -1,6 +1,7 @@
+from django.db.models import Q
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError, MethodNotAllowed, APIException
+from rest_framework.exceptions import ValidationError, APIException
 
 from backend.account.models import Account
 from backend.account.serializers import AdminAccountSerializer
@@ -47,3 +48,51 @@ class AccountAdminView (AdminOnlyAPIView, RetrieveUpdateDestroyAPIView) :
             raise APIException("You cannot revoke admin priviledge from you account.", "operation_denied")
 
         return super().update(request, *args, **kwargs)
+
+class AccountAdminSearch (AdminOnlyAPIView) :
+    min_count = 5
+
+    def get(self, request, *args, **kwargs) :
+        query = request.query_params['query']
+        page_size = request.query_params.get('page_size', 10)
+        admin_only = request.query_params.get('admin_only', False)
+        words = query.split(' ')
+
+        if page_size <= 0 : page_size = self.min_count
+
+        filters = Q(email=query) | Q(first_name=query) | Q(last_name=query)
+
+        if admin_only : filters = Q(filters) & Q(is_admin=True)
+
+        accounts = Account.objects.filter(filters)
+
+        if len(accounts) >= self.min_count :
+            return Response(AdminAccountSerializer(accounts, many=True).data)
+
+        filters |= Q(first_name__iexact=query) | Q(last_name__iexact=query) | Q(email=query)
+        
+        if len(words) > 1 :
+            for word in words :
+                filters |= Q(first_name__iexact=word)
+                filters |= Q(last_name__iexact=word)
+
+        if admin_only : filters = Q(filters) & Q(is_admin=True)
+
+        accounts |= Account.objects.filter(filters)[:page_size - len(accounts)]
+
+        if len(accounts) >= self.min_count :
+            return Response(AdminAccountSerializer(accounts, many=True).data)
+
+        filters |= Q(first_name__icontains=query)
+        filters |= Q(last_name__icontains=query)
+
+        if len(words) > 1 :
+            for word in words :
+                filters |= Q(first_name__icontains=word)
+                filters |= Q(last_name__icontains=word)
+
+        if admin_only : filters = Q(filters) & Q(is_admin=True)
+
+        accounts |= Account.objects.filter(filters)[:page_size - len(accounts)]
+
+        return Response(AdminAccountSerializer(accounts, many=True).data)
