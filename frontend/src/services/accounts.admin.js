@@ -31,3 +31,12 @@ export const getAccount = async (id) => {
 export const deleteAccount = async (id) => {
     await axiosApi.delete(`/admin/accounts/${id}`)
 }
+
+export const updateAccount = async (id, data) => {
+    try {
+        const response = await axiosApi.patch(`/admin/accounts/${id}`, data)
+        return [response.data, null]
+    } catch (error) {
+        return [null, error?.response?.data]
+    }
+}

@@ -10,7 +10,7 @@ const AccountsList = ({ accounts, hasNext, hasPrevious, nextPage, previousPage }
                 account.last_name + ' ' + account.first_name,
                 account.email, 
                 (account.is_admin ? <input className='form-check-input' checked type='checkbox' readOnly/> : null),
-                (<button className='btn btn-success'>Modifier</button>),
+                (<Link to={`/accounts/edit/${account.id}`} className='btn btn-primary'>Modifier</Link>),
                 (<Link to={`/accounts/delete/${account.id}`} className='btn btn-danger'>Supprimer</Link>)
             ]
         })
