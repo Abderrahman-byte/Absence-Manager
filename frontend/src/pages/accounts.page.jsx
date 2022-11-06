@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import AccountsList from '@Components/AccountsList'
 import { getAccountsList, searchAccounts } from '@Services/accounts.admin'
 import AccountSearchForm from '@Components/AccountSearchForm'
+import { Link } from 'react-router-dom'
 
 // TODO : add filter admin only on main list
 
@@ -66,7 +67,11 @@ const AccountsPage = () => {
 
     return (
         <div className='AccountPage'>
-            <h2 className='mb-4'>Administration des comptes</h2>
+            <h3 className='mb-4'>Administration des comptes</h3>
+
+            <div className='d-flex justify-content-end mb-3'>
+                <Link to='/accounts/add' className='btn btn-primary'>Créer un compte</Link>
+            </div>
 
             <AccountSearchForm 
                 searchValue={searchValue} 

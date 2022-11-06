@@ -41,7 +41,7 @@ export const accountFields = [
 	{
 		name: 'password2',
 		type: 'password',
-		label: 'Confimer Mot de passe',
+		label: 'Confimation de Mot de passe',
 		validators: [validators.required()],
         required: true
 	},

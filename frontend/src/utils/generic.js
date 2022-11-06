@@ -6,7 +6,7 @@ export const parseJWT = (token) => {
     return JSON.parse(atob(parts[1]))
 }
 
-export const apiErrorsToFromErrors = (fields, errors) => {
+export const apiErrorsToFormErrors = (fields, errors) => {
     const formatErrors = []
 
     fields.forEach(field => {

@@ -40,3 +40,12 @@ export const updateAccount = async (id, data) => {
         return [null, error?.response?.data]
     }
 }
+
+export const postAccount = async (data) => {
+    try {
+        const response = await axiosApi.post(`/admin/accounts`, data)
+        return [response.data, null]
+    } catch (error) {
+        return [null, error?.response?.data]
+    }
+}

@@ -4,7 +4,7 @@ import { useParams } from 'react-router'
 import GenericForm from '@Components/GenericForm'
 import { getAccount, updateAccount } from '@Services/accounts.admin'
 import { editAccountFields } from '@Utils/forms'
-import { apiErrorsToFromErrors } from '@Utils/generic'
+import { apiErrorsToFormErrors } from '@Utils/generic'
 import { DEFAULT_ERROR_MSG } from '@Utils/env'
 
 const EditAccountPage = () => {
@@ -23,7 +23,7 @@ const EditAccountPage = () => {
         if (!response && !errors) {
             setErrors([DEFAULT_ERROR_MSG])
         } else if (!response) {
-            setErrors(apiErrorsToFromErrors(editAccountFields, errors))
+            setErrors(apiErrorsToFormErrors(editAccountFields, errors))
         } else {
             setMessages(['Le compte a été enregistré avec succès.'])
             setTimeout(() => setMessages([]), 1000)
