@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db import models
 
 from backend.modules.models import ModuleElement
@@ -21,12 +21,16 @@ class StudySession (models.Model) :
             models.CheckConstraint(check=models.Q(end_at__gt=models.F('start_at')), name='check_start_time')
         ]
 
-    def get_delta_time (self):
+    def get_delta_time (self) -> timedelta:
+        """
+        Returns the time difference between start_at and end_at."""
         start_date = datetime.combine(self.date, self.start_at)
         end_date = datetime.combine(self.date, self.end_at)
         return end_date - start_date
 
-    def get_hours (self) :
+    def get_hours (self) -> int:
+        """
+        Converts :func:`get_delta_time` in hours."""
         return self.get_delta_time().seconds // 3600
 
     def __str__(self):

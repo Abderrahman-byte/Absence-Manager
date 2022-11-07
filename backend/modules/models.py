@@ -2,7 +2,7 @@ from django.db import models
 
 from backend.account.models import Account
 
-# ! Maybe add creation date to the departement
+# TODO : Maybe add creation date to the departement
 
 class Departement (models.Model) :
     name = models.CharField("name", unique=True, max_length=100)

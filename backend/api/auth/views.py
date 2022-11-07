@@ -7,6 +7,8 @@ from backend.account.serializers import AccountSerializer
 from .serializers import AccountTokenObtainPairSerializer, AccountTokenRefreshSerializer
 
 class AccountInfo (APIView):
+    """
+    View for authenticated account info."""
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, format=None) :

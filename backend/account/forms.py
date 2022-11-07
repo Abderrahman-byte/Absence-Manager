@@ -5,7 +5,14 @@ from django.contrib.auth import password_validation
 
 from backend.account.models import Account
 
+# TODO : add Password modification form
+
 class AccountCreationForm (forms.ModelForm) :
+    """
+    A form that creates an account, with no privileges, from the given email and
+    password.
+    """
+
     error_messages = {
         "password_mismatch": "The two password fields didn’t match.",
     }
@@ -62,6 +69,10 @@ class AccountCreationForm (forms.ModelForm) :
 
 
 class AccountChangeForm(forms.ModelForm):
+    """
+    A form that modifies an account fields except the password.
+    """
+
     password = ReadOnlyPasswordHashField(
         label="Password",
         help_text=

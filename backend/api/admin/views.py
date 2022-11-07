@@ -14,6 +14,9 @@ from backend.account.forms import AccountCreationForm
 # TODO : Add Logging actions
 
 class AccountsAdminView (AdminOnlyAPIView, ListCreateAPIView):
+    """
+    Get list of accounts and create account."""
+
     serializer_class = AdminAccountSerializer
     queryset = Account.objects.all()
     pagination_class = StandardResultsSetPagination
@@ -50,6 +53,9 @@ class AccountAdminView (AdminOnlyAPIView, RetrieveUpdateDestroyAPIView) :
         return super().update(request, *args, **kwargs)
 
 class AccountAdminSearch (AdminOnlyAPIView) :
+    """
+    View search for accounts."""
+
     min_count = 5
 
     def get(self, request, *args, **kwargs) :

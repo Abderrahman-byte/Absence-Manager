@@ -2,7 +2,6 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
-from django.utils.crypto import get_random_string
 
 from backend.core.models import Person
 from backend.core.utils import generate_str
@@ -16,6 +15,9 @@ class AccountManager (BaseUserManager) :
     use_in_migrations = True
 
     def _create_user(self, email, password, **extra_fields):
+        """
+        Create and save a user with the given email, and password.
+        """
         if not email:
             raise ValueError("The given email must be set")
 
@@ -44,6 +46,15 @@ class AccountManager (BaseUserManager) :
 
 
 class Account (Person, AbstractBaseUser, PermissionsMixin) :
+    """
+    Customized Account model extens :class:`AbstractBaseUser`.
+
+    Email and Password are required. Other fields are optional.
+
+    superuser and is_staff fields are used in django admin and djang auth apps
+    but is_admin fields used to specifie if user is an app administrator.
+    """
+
     id = models.CharField("ID", primary_key=True, default=generate_id, max_length=ACCOUNT_ID_LENGTH)
     is_admin = models.BooleanField("admin status", default=False)
 
@@ -55,16 +66,3 @@ class Account (Person, AbstractBaseUser, PermissionsMixin) :
     USERNAME_FIELD = "email"
 
     objects = AccountManager()
-
-    def get_full_name(self):
-        full_name = f"{self.last_name} {self.first_name}"
-        return full_name.strip()
-
-    def __str__(self):
-        return self.get_full_name()
-
-"""
-Note : superuser and staff fields are used in django admin and djang auth apps
-        but is_admin fields used to specifie if user is an app admin 
-        rather than dev admin or staff
-"""
