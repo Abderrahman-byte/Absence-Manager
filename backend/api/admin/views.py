@@ -1,26 +1,26 @@
 from django.db.models import Q
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, APIException
+from rest_framework import viewsets
 
 from backend.account.models import Account
-from backend.modules.models import Departement
+from backend.modules.models import Departement, Faculty
 from backend.account.serializers import AdminAccountSerializer
-from backend.modules.serializers import DepartementSerializer
+from backend.modules.serializers import DepartementSerializer, FacultySerializer
 from backend.core.pagination import StandardResultsSetPagination
 from backend.core.utils import get_errors_object
 from backend.core.views import AdminOnlyAPIView
 from backend.account.forms import AccountCreationForm
+from backend.core.utils import view_set_to_crud, view_set_to_list_create
 
 # TODO : CRUD Departements
 # TODO : Add Logging actions
 
-class AccountsAdminView (AdminOnlyAPIView, ListCreateAPIView):
+class AccountsAdminViewSet (AdminOnlyAPIView, viewsets.ModelViewSet):
     """
-    Get list of accounts and create account."""
+    View set for CRUD operations made by the admin."""
 
     serializer_class = AdminAccountSerializer
-    queryset = Account.objects.all()
     pagination_class = StandardResultsSetPagination
 
     # TODO : generate random string as password and send it to user's email
@@ -32,10 +32,6 @@ class AccountsAdminView (AdminOnlyAPIView, ListCreateAPIView):
 
         account = form.save()
         return Response(self.serializer_class(account).data)
-
-class AccountAdminView (AdminOnlyAPIView, RetrieveUpdateDestroyAPIView) :
-    serializer_class = AdminAccountSerializer
-    queryset = Account.objects.all()
 
     def patch(self, request, *args, **kwargs):
         if request.user == self.get_object() and 'is_admin' in request.data and not request.data.get('is_admin'):
@@ -53,6 +49,10 @@ class AccountAdminView (AdminOnlyAPIView, RetrieveUpdateDestroyAPIView) :
             raise APIException("You cannot revoke admin priviledge from you account.", "operation_denied")
 
         return super().update(request, *args, **kwargs)
+
+    # TODO : Order query_set for consistent pagination
+    def get_queryset(self):
+        return Account.objects.all()
 
 class AccountAdminSearch (AdminOnlyAPIView) :
     """
@@ -113,10 +113,23 @@ class AccountAdminSearch (AdminOnlyAPIView) :
 
         return Response(AdminAccountSerializer(accounts, many=True).data)
 
-class DepartementsCreateListView (AdminOnlyAPIView, ListCreateAPIView) :
-    serializer_class = DepartementSerializer
-    queryset = Departement.objects.all()
 
-class DepartementRetrieveUpdateDestroy (AdminOnlyAPIView, RetrieveUpdateDestroyAPIView) :
+class DepartementsViewSets (AdminOnlyAPIView, viewsets.ModelViewSet) :
     serializer_class = DepartementSerializer
-    queryset = Departement.objects.all()
+
+    def get_queryset(self):
+        return Departement.objects.order_by('id').all()
+
+class FacultyViewSets (AdminOnlyAPIView, viewsets.ModelViewSet) :
+    serializer_class = FacultySerializer
+
+    def get_queryset(self):
+        return Faculty.objects.order_by('id').all()
+
+
+accounts_list_create_view = view_set_to_list_create(AccountsAdminViewSet)
+account_view = view_set_to_crud(AccountsAdminViewSet)
+departements_list_create_view = view_set_to_list_create(DepartementsViewSets)
+departement_view = view_set_to_crud(DepartementsViewSets)
+faculty_list_create_view = view_set_to_list_create(FacultyViewSets)
+faculty_view = view_set_to_crud(FacultyViewSets)

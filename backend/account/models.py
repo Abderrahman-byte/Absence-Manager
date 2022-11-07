@@ -6,6 +6,8 @@ from django.db import models
 from backend.core.models import Person
 from backend.core.utils import generate_str
 
+# TODO : add timestamp fields to account
+
 ACCOUNT_ID_LENGTH = 20
 
 def generate_id () :

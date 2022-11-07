@@ -12,3 +12,14 @@ def get_errors_object (form : BaseForm) -> dict:
 def generate_str (len:str = 10) -> str:
     allowed_chars="abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"
     return get_random_string(len, allowed_chars)
+
+def view_set_to_list_create (view_set) :
+    return view_set.as_view({'get': 'list', 'post': 'create'})
+
+def view_set_to_crud (view_set) :
+    return view_set.as_view({
+        'get': 'retrieve', 
+        'put': 'update', 
+        'patch': 'partial_update', 
+        'delete': 'destroy'
+    })

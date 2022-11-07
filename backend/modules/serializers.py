@@ -17,10 +17,9 @@ class DepartementSerializer (serializers.ModelSerializer) :
 
     def create(self, validated_data):
         if 'head_of_departement_id' in validated_data :
-            # Get account from head_of_departement_id field
             account_id = validated_data.pop('head_of_departement_id')
             account = Account.objects.get(pk=account_id)
-            return Departement.objects.create(head_of_departement=account, **validated_data)
+            validated_data['head_of_departement'] = account
         
         return super().create(validated_data)
 
@@ -34,6 +33,7 @@ class DepartementSerializer (serializers.ModelSerializer) :
 
 
 class FacultySerializer (serializers.ModelSerializer) :
+    departement_id = serializers.IntegerField(write_only=True)
     departement = serializers.SlugRelatedField(
         read_only=True,
         slug_field='name'
@@ -41,8 +41,25 @@ class FacultySerializer (serializers.ModelSerializer) :
 
     class Meta :
         model = Faculty
-        fields = ['id', 'name', 'short_name', 'description', 'departement']
+        fields = ['id', 'name', 'short_name', 'description', 'departement', 'departement_id']
         read_only_fields = ['id', 'departement']
+        write_only_fields = ['departement_id']
+
+    def create(self, validated_data):
+        if 'departement_id' in validated_data :
+            departement_id = validated_data.pop('departement_id')
+            departement = Departement.objects.get(pk=departement_id)
+            validated_data['departement'] = departement
+        
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if 'departement_id' in validated_data :
+            departement_id = validated_data.pop('departement_id')
+            departement = Departement.objects.get(pk=departement_id)
+            instance.departement = departement
+
+        return super().update(instance, validated_data)
 
 class ModuleSerializer (serializers.ModelSerializer) :
     faculty = FacultySerializer(read_only=True)
