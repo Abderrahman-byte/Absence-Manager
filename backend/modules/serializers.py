@@ -2,7 +2,36 @@ from rest_framework import serializers
 
 from backend.students.serializers import StudentSerializer
 
-from .models import ModuleElement, Module, Faculty
+from backend.account.models import Account
+from backend.account.serializers import AccountSerializer
+from .models import ModuleElement, Module, Faculty, Departement
+
+class DepartementSerializer (serializers.ModelSerializer) :
+    head_of_departement = AccountSerializer(read_only=True)
+    head_of_departement_id = serializers.CharField(write_only=True)
+
+    class Meta :
+        model = Departement
+        fields = ['id', 'name', 'description', 'head_of_departement', 'head_of_departement_id']
+        read_only_fields = ['id', 'head_of_departement']
+
+    def create(self, validated_data):
+        if 'head_of_departement_id' in validated_data :
+            # Get account from head_of_departement_id field
+            account_id = validated_data.pop('head_of_departement_id')
+            account = Account.objects.get(pk=account_id)
+            return Departement.objects.create(head_of_departement=account, **validated_data)
+        
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if 'head_of_departement_id' in validated_data :
+            account_id = validated_data.pop('head_of_departement_id')
+            account = Account.objects.get(pk=account_id)
+            instance.head_of_departement = account
+
+        return super().update(instance, validated_data)
+
 
 class FacultySerializer (serializers.ModelSerializer) :
     departement = serializers.SlugRelatedField(

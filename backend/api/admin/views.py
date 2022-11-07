@@ -4,7 +4,9 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, APIException
 
 from backend.account.models import Account
+from backend.modules.models import Departement
 from backend.account.serializers import AdminAccountSerializer
+from backend.modules.serializers import DepartementSerializer
 from backend.core.pagination import StandardResultsSetPagination
 from backend.core.utils import get_errors_object
 from backend.core.views import AdminOnlyAPIView
@@ -64,10 +66,13 @@ class AccountAdminSearch (AdminOnlyAPIView) :
         admin_only = request.query_params.get('admin_only', False)
         words = query.split(' ')
 
+        # Set page_size to min_count if less then 0
         if page_size <= 0 : page_size = self.min_count
 
+        # Filter by exact email, first_name or last_name
         filters = Q(email=query) | Q(first_name=query) | Q(last_name=query)
 
+        # Set admin only filter
         if admin_only : filters = Q(filters) & Q(is_admin=True)
 
         accounts = Account.objects.filter(filters)
@@ -75,10 +80,13 @@ class AccountAdminSearch (AdminOnlyAPIView) :
         if len(accounts) >= self.min_count :
             return Response(AdminAccountSerializer(accounts, many=True).data)
 
+        #  Filter by email, first_name or last_name (case incensitive)
         filters |= Q(first_name__iexact=query) | Q(last_name__iexact=query) | Q(email=query)
         
+
         if len(words) > 1 :
             for word in words :
+                #  Filter by each word of the query
                 filters |= Q(first_name__iexact=word)
                 filters |= Q(last_name__iexact=word)
 
@@ -89,6 +97,7 @@ class AccountAdminSearch (AdminOnlyAPIView) :
         if len(accounts) >= self.min_count :
             return Response(AdminAccountSerializer(accounts, many=True).data)
 
+        #  Filter by email, first_name or last_name contains query
         filters |= Q(first_name__icontains=query)
         filters |= Q(last_name__icontains=query)
 
@@ -99,6 +108,15 @@ class AccountAdminSearch (AdminOnlyAPIView) :
 
         if admin_only : filters = Q(filters) & Q(is_admin=True)
 
+        # Concatinate with previous results
         accounts |= Account.objects.filter(filters)[:page_size - len(accounts)]
 
         return Response(AdminAccountSerializer(accounts, many=True).data)
+
+class DepartementsCreateListView (AdminOnlyAPIView, ListCreateAPIView) :
+    serializer_class = DepartementSerializer
+    queryset = Departement.objects.all()
+
+class DepartementRetrieveUpdateDestroy (AdminOnlyAPIView, RetrieveUpdateDestroyAPIView) :
+    serializer_class = DepartementSerializer
+    queryset = Departement.objects.all()
