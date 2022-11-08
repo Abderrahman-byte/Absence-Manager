@@ -28,6 +28,9 @@ const adminRoutes = [
 	{
 		label: 'Gestion des Comptes',
 		to: '/accounts',
+	},{
+		label: 'Départements',
+		to: '/departements',
 	},
 ]
 

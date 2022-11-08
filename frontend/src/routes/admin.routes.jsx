@@ -5,6 +5,7 @@ import AccountsPage from '@Pages/accounts.page'
 import DeleteAccountPage from '@Pages/DeleteAccount.page'
 import EditAccountPage from '@Pages/EditAccount.page'
 import CreateAccountPage from '@Pages/createAccount.page'
+import DepartementsPage from '@Pages/departements.page'
 
 const AdminRoutes = () => {
 	return (
@@ -16,10 +17,13 @@ const AdminRoutes = () => {
 					</div>
 				}
 			/>
+
             <Route path='/accounts' element={<AccountsPage />} />
             <Route path='/accounts/delete/:id' element={<DeleteAccountPage />} />
             <Route path='/accounts/edit/:id' element={<EditAccountPage />} />
             <Route path='/accounts/add' element={<CreateAccountPage />} />
+
+			<Route path='/departements' element={<DepartementsPage />} />
 		</Routes>
 	)
 }
