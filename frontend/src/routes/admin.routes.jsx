@@ -10,6 +10,8 @@ import EditDepartementPage from '@Pages/EditDepartement.page'
 import CreateDepartementPage from '@Pages/CreateDepartement.page'
 import FacultiesPage from '@Pages/Faculties.page'
 import DeleteDepartementPage from '@Pages/DeleteDepartement.page'
+import EditFacultyPage from '@Pages/EditFaculty.page'
+import CreateFacultyPage from '@Pages/CreateFaculty.page'
 
 const AdminRoutes = () => {
 	return (
@@ -33,6 +35,8 @@ const AdminRoutes = () => {
 			<Route path='/departements/add' element={<CreateDepartementPage />} />
 
 			<Route path='/faculty' element={<FacultiesPage />} />
+			<Route path='/faculty/edit/:id' element={<EditFacultyPage />} />
+			<Route path='/faculty/add' element={<CreateFacultyPage />} />
 		</Routes>
 	)
 }

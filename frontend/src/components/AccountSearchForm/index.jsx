@@ -6,7 +6,7 @@ const AccountSearchForm = ({ searchValue, adminOnly, setSearchvalue, setAdminOnl
             <div className='card-body'>
                 <h3 className='card-title mb-3'>Filtrer les comptes</h3>
                 <form className='d-flex align-items-center flex-wrap'>
-                    <div class="me-5">
+                    <div className="me-5">
                         <input 
                             value={searchValue} 
                             onChange={e => setSearchvalue(e.target.value)} 
@@ -17,7 +17,7 @@ const AccountSearchForm = ({ searchValue, adminOnly, setSearchvalue, setAdminOnl
                         />
                     </div>
 
-                    <div class="flex-shrink-0 form-check">
+                    <div className="flex-shrink-0 form-check">
                         <input 
                             type='checkbox'
                             checked={adminOnly} 
@@ -25,7 +25,7 @@ const AccountSearchForm = ({ searchValue, adminOnly, setSearchvalue, setAdminOnl
                             className='form-check-input'
                             id='admin-only-input'
                             />
-                        <label class="form-check-label" for="admin-only-input">Administrateur</label>
+                        <label className="form-check-label" for="admin-only-input">Administrateur</label>
                     </div>
                 </form>
             </div>

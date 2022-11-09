@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 
-const SearchInput = ({ classname='', label, name, value, getItems, setValue }) => {
+const SearchInput = ({ classname='', label, name, value, getItems, setValue, errors }) => {
     const [inputValue, setInputValue] = useState(value?.name || '')
     const [show, setShow] = useState(false)
     const [items, setItems] = useState([])
@@ -55,6 +55,8 @@ const SearchInput = ({ classname='', label, name, value, getItems, setValue }) =
                     </ul>
                 ): null}
             </div>
+
+            {errors.map((error, i) => <div key={i} id={`${name}Help`} className="form-text text-danger">{error.message}</div>)}
         </div>
     )
 }

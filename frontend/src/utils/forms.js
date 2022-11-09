@@ -1,18 +1,5 @@
+import { getAccountSearchItems, getDepartementSearchItems } from './search'
 import validators from './validators'
-import { searchAccounts } from '@Services/accounts.admin'
-
-const getAccountSearchItems = async (query, setItems) => {
-	if (!query || query.length <= 0) return setItems([])
-
-	const data = await searchAccounts(query, 5)
-
-	setItems(data.map(account => { 
-		return {
-			id: account.id,
-			name: `${account.last_name} ${account.first_name}`
-		}
-	}))
-}
 
 export const editAccountFields = [
 	{
@@ -82,6 +69,30 @@ export const departementFields = [
 	},
 ]
 
+export const facultyFields = [
+	{
+		name: 'name',
+		type: 'text',
+		label: 'Nom de filiere',
+		validators: [validators.required(), validators.minLength(4)],
+	}, {
+		name: 'short_name',
+		type: 'text',
+		label: 'Abréviation',
+		validators: [validators.minLength(3)],
+	}, {
+		name: 'departement',
+		type: 'search-input',
+		label: 'Departement',
+		getItems: getDepartementSearchItems,
+		validators: [validators.required("Le champs de departement est obligatoire.")]
+	}, {
+		name: 'description',
+		type: 'textarea',
+		label: 'Description :',
+	},
+]
+
 export const validateForm = (fields, formData) => {
 	const allFieldsErrors = []
 
@@ -100,7 +111,7 @@ export const validateForm = (fields, formData) => {
 			.map((error) => {
 				return { field: field.name, message: error }
 			})
-
+		
 		if (errors.length > 0) allFieldsErrors.push(...errors)
 	})
 

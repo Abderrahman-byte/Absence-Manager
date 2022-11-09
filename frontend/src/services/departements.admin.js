@@ -49,3 +49,13 @@ export const deleteDepartement = async (id) => {
         return [null, error?.response?.data]
     }
 }
+
+export const searchDepartement = async (query) => {
+    try {
+        const response = await axiosApi.get(`/admin/departements/search?query=${query}`)
+
+        return response.data
+    } catch {}
+
+    return []
+}
