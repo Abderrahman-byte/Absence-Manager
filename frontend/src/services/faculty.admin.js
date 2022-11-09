@@ -19,6 +19,15 @@ export const getFaculty = async (id) => {
     return null
 }
 
+export const deleteFaculty = async (id) => {
+    try {
+        const response = await axiosApi.delete(`/admin/faculty/${id}`)
+        return response.data
+    } catch {}
+
+    return null
+}
+
 export const updateFaculty = async (id, data) => {
     try {
         const response = await axiosApi.put(`/admin/faculty/${id}`, data)

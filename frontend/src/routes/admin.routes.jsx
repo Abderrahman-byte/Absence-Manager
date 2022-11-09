@@ -12,6 +12,7 @@ import FacultiesPage from '@Pages/Faculties.page'
 import DeleteDepartementPage from '@Pages/DeleteDepartement.page'
 import EditFacultyPage from '@Pages/EditFaculty.page'
 import CreateFacultyPage from '@Pages/CreateFaculty.page'
+import DeleteFacultyPage from '@Pages/DeleteFaculty.page'
 
 const AdminRoutes = () => {
 	return (
@@ -36,6 +37,7 @@ const AdminRoutes = () => {
 
 			<Route path='/faculty' element={<FacultiesPage />} />
 			<Route path='/faculty/edit/:id' element={<EditFacultyPage />} />
+			<Route path='/faculty/delete/:id' element={<DeleteFacultyPage />} />
 			<Route path='/faculty/add' element={<CreateFacultyPage />} />
 		</Routes>
 	)
