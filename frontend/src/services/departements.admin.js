@@ -29,3 +29,13 @@ export const updateDepartement = async (id, data) => {
         return [null, error?.response?.data]
     }
 }
+
+export const postDepartement = async (data) => {
+    try {
+        const response = await axiosApi.post(`/admin/departements`, data)
+
+        return [response.data, null]
+    } catch (error) {
+        return [null, error?.response?.data]
+    }
+}

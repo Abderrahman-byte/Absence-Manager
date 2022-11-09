@@ -7,6 +7,7 @@ import EditAccountPage from '@Pages/EditAccount.page'
 import CreateAccountPage from '@Pages/createAccount.page'
 import DepartementsPage from '@Pages/departements.page'
 import EditDepartementPage from '@Pages/EditDepartement.page'
+import CreateDepartementPage from '@Pages/CreateDepartement.page'
 
 const AdminRoutes = () => {
 	return (
@@ -26,6 +27,7 @@ const AdminRoutes = () => {
 
 			<Route path='/departements' element={<DepartementsPage />} />
 			<Route path='/departements/edit/:id' element={<EditDepartementPage />} />
+			<Route path='/departements/add' element={<CreateDepartementPage />} />
 		</Routes>
 	)
 }

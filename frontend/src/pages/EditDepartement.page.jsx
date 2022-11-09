@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import GenericForm from '@Components/GenericForm'
@@ -6,7 +6,6 @@ import { getDepartement, updateDepartement } from '@Services/departements.admin'
 import { departementFields } from '@Utils/forms'
 import { DEFAULT_ERROR_MSG } from '@Utils/env'
 import { apiErrorsToFormErrors } from '@Utils/generic'
-import { useMemo } from 'react'
 
 const EditDepartementPage = () => {
     const [departement, setDepartement] = useState(undefined)

@@ -41,6 +41,7 @@ const SearchInput = ({ classname='', label, name, value, getItems, setValue }) =
                     id={`${name}-input`} 
                     onChange={inputChanged}
                     value={inputValue}
+                    autoComplete='off'
                     name={name} />
 
                 {show && items.length > 0 ? (

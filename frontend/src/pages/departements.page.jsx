@@ -34,7 +34,7 @@ const DepartementsPage = () => {
         <div className='DepartementsPage'>
             <h3 className='mb-3'>Gestion des departements</h3>
             <div className='text-end mb-3'>
-                <Link to='#' className='btn btn-primary'>Creer une departement</Link>
+                <Link to='/departements/add' className='btn btn-primary'>Creer une departement</Link>
             </div>
 
             <TableGeneric colomns={['name', 'Chef de departement', '', '']} data={departementsRows} />
