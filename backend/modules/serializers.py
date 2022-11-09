@@ -34,10 +34,7 @@ class DepartementSerializer (serializers.ModelSerializer) :
 
 class FacultySerializer (serializers.ModelSerializer) :
     departement_id = serializers.IntegerField(write_only=True)
-    departement = serializers.SlugRelatedField(
-        read_only=True,
-        slug_field='name'
-    )
+    departement = DepartementSerializer(read_only=True)
 
     class Meta :
         model = Faculty
@@ -46,6 +43,7 @@ class FacultySerializer (serializers.ModelSerializer) :
         write_only_fields = ['departement_id']
 
     def create(self, validated_data):
+        print(validated_data)
         if validated_data.get('departement_id') is not None :
             departement_id = validated_data.pop('departement_id')
             departement = Departement.objects.get(pk=departement_id)

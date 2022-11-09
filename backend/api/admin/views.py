@@ -1,6 +1,6 @@
 from django.db.models import Q
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError, APIException
+from rest_framework.exceptions import ValidationError, APIException, bad_request
 from rest_framework import viewsets
 
 from backend.account.models import Account
@@ -120,6 +120,14 @@ class DepartementsViewSets (AdminOnlyAPIView, viewsets.ModelViewSet) :
     def get_queryset(self):
         return Departement.objects.order_by('id').all()
 
+    def search (self, request, *args, **kwargs) :
+        query = request.query_params.get('query')
+
+        if query is None or query == '' : raise bad_request
+
+        departements = Departement.objects.search(query)
+        return Response(DepartementSerializer(departements, many=True).data)
+
 class FacultyViewSets (AdminOnlyAPIView, viewsets.ModelViewSet) :
     serializer_class = FacultySerializer
 
@@ -131,5 +139,6 @@ accounts_list_create_view = view_set_to_list_create(AccountsAdminViewSet)
 account_view = view_set_to_crud(AccountsAdminViewSet)
 departements_list_create_view = view_set_to_list_create(DepartementsViewSets)
 departement_view = view_set_to_crud(DepartementsViewSets)
+departement_search = DepartementsViewSets.as_view({ 'get': 'search' })
 faculty_list_create_view = view_set_to_list_create(FacultyViewSets)
 faculty_view = view_set_to_crud(FacultyViewSets)

@@ -4,6 +4,10 @@ from backend.account.models import Account
 
 # TODO : Maybe add creation date to the departement
 
+class DepartementManager (models.Manager) :
+    def search (self, query:str) :
+        return self.filter(name__icontains=query.lower()).all()
+
 class Departement (models.Model) :
     name = models.CharField("name", unique=True, max_length=100)
     description = models.TextField("description", blank=True, null=True)
@@ -15,6 +19,8 @@ class Departement (models.Model) :
         blank=True,
         on_delete=models.SET_NULL
     )
+
+    objects = DepartementManager()
 
     def __str__(self):
         return self.name
