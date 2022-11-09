@@ -10,7 +10,6 @@ const DepartementsPage = () => {
     const initDepartements = async () => {
         const data = await getDepartements()
         setDepartements(data)
-        console.log(data)
     }
 
     useEffect(() => {
@@ -25,7 +24,7 @@ const DepartementsPage = () => {
                 dep.name,
                 `${hod?.last_name || ''} ${hod?.first_name || ''}`,
                 (<Link to={`/departements/edit/${dep.id}`} className='btn btn-primary'>Modifier</Link>),
-                (<Link to='#' className='btn btn-danger'>Supprimer</Link>)
+                (<Link to={`/departements/delete/${dep.id}`} className='btn btn-danger'>Supprimer</Link>)
             ]
         })
     }, [departements])

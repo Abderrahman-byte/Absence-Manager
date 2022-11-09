@@ -8,7 +8,7 @@ from .models import ModuleElement, Module, Faculty, Departement
 
 class DepartementSerializer (serializers.ModelSerializer) :
     head_of_departement = AccountSerializer(read_only=True)
-    head_of_departement_id = serializers.CharField(write_only=True)
+    head_of_departement_id = serializers.CharField(write_only=True, allow_null=True)
 
     class Meta :
         model = Departement
@@ -16,7 +16,7 @@ class DepartementSerializer (serializers.ModelSerializer) :
         read_only_fields = ['id', 'head_of_departement']
 
     def create(self, validated_data):
-        if 'head_of_departement_id' in validated_data :
+        if validated_data.get('head_of_departement_id') is not None :
             account_id = validated_data.pop('head_of_departement_id')
             account = Account.objects.get(pk=account_id)
             validated_data['head_of_departement'] = account
@@ -26,7 +26,7 @@ class DepartementSerializer (serializers.ModelSerializer) :
     def update(self, instance, validated_data):
         if 'head_of_departement_id' in validated_data :
             account_id = validated_data.pop('head_of_departement_id')
-            account = Account.objects.get(pk=account_id)
+            account = Account.objects.get(pk=account_id) if account_id is not None else None
             instance.head_of_departement = account
 
         return super().update(instance, validated_data)
@@ -46,7 +46,7 @@ class FacultySerializer (serializers.ModelSerializer) :
         write_only_fields = ['departement_id']
 
     def create(self, validated_data):
-        if 'departement_id' in validated_data :
+        if validated_data.get('departement_id') is not None :
             departement_id = validated_data.pop('departement_id')
             departement = Departement.objects.get(pk=departement_id)
             validated_data['departement'] = departement
@@ -56,8 +56,7 @@ class FacultySerializer (serializers.ModelSerializer) :
     def update(self, instance, validated_data):
         if 'departement_id' in validated_data :
             departement_id = validated_data.pop('departement_id')
-            departement = Departement.objects.get(pk=departement_id)
-            instance.departement = departement
+            instance.departement = Departement.objects.get(pk=departement_id) if departement_id is not None else None
 
         return super().update(instance, validated_data)
 

@@ -1,6 +1,8 @@
-import { deleteAccount, getAccount } from '@Services/accounts.admin'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
+
+import ConfirmCard from '@Components/ConfirmCard'
+import { deleteAccount, getAccount } from '@Services/accounts.admin'
 
 const DeleteAccountPage  = () => {
     const [account, setAccount] = useState(undefined)
@@ -21,6 +23,13 @@ const DeleteAccountPage  = () => {
         })
     }
 
+    const accountFullName = useMemo(() => {
+        if (account?.first_name || account?.last_name) 
+            return `${account.last_name || ''} ${account.first_name || ''}`
+
+        return account?.email
+    }, [account])
+
     useEffect(() => {
         fetchAccount()
     }, [id])
@@ -37,14 +46,12 @@ const DeleteAccountPage  = () => {
                 </div>
             </div>
 
-            <div className='alert alert-warning'>
-                <p className='text-center'>Voulez-vous vraiment supprimer le compte de {account.last_name} {account.first_name} ?</p>
-                
-                <div className='d-flex justify-content-center'>
-                    <button onClick={deleteAccountCallback} className='btn btn-danger me-3'>Confimer</button>
-                    <button onClick={goBack} className='btn btn-primary'>Revenir</button>
-                </div>
-            </div>
+            <ConfirmCard 
+                msg={`Voulez-vous vraiment supprimer le compte de ${accountFullName} ?`}
+                confirmBtn='Confimer'
+                returnBtn='Revenir'
+                confirmCallback={deleteAccountCallback}
+            />
         </div>
     )
 }

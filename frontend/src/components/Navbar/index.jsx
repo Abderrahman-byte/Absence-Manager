@@ -12,7 +12,10 @@ const Navbar = ({ navLinks = [], account }) => {
         <hr/>
         <ul className="nav nav-pills flex-column mb-auto">
 			      {navLinks.map((link, i) => <li key={i} className="nav-item">
-            	<NavLink end to={link.to} className='nav-link text-white'>{link.label}</NavLink>
+            	<NavLink 
+                end={link.to === '' || link.to === '/' || link.to === '#'} 
+                to={link.to} 
+                className='nav-link text-white'>{link.label}</NavLink>
           	</li>)}
         </ul>
         <hr/>

@@ -31,6 +31,9 @@ const adminRoutes = [
 	},{
 		label: 'Départements',
 		to: '/departements',
+	},{
+		label: 'Filières',
+		to: '/faculty',
 	},
 ]
 

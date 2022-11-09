@@ -39,3 +39,13 @@ export const postDepartement = async (data) => {
         return [null, error?.response?.data]
     }
 }
+
+export const deleteDepartement = async (id) => {
+    try {
+        const response = await axiosApi.delete(`/admin/departements/${id}`)
+
+        return [response.data, null]
+    } catch (error) {
+        return [null, error?.response?.data]
+    }
+}

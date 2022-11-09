@@ -1,18 +1,18 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 
-import ElementsPage from '@Pages/elements.page'
-import FacultiesPage from '@Pages/faculties.page'
-import ElementStatPage from '@Pages/elementstats.page'
-import TeacherFacultyPage from '@Pages/teacherfaculty.page'
+import TeacherElementsPage from '@Pages/TeacherElements.page'
+import TeacherFacultiesPage from '@Pages/TeacherFaculties.page'
+import TeacherElementStatPage from '@Pages/TeacherElementStat.page'
+import TeacherFacultyPage from '@Pages/TeacherFaculty.page'
 
 const UserRoutes = () => {
     return (
         <Routes>
             <Route index element={<Navigate to='elements' />} />
-            <Route path='/elements' element={<ElementsPage />} />
-            <Route path='/element/:id' element={<ElementStatPage />} />
-            <Route path='/faculty' element={<FacultiesPage />} />
+            <Route path='/elements' element={<TeacherElementsPage />} />
+            <Route path='/element/:id' element={<TeacherElementStatPage />} />
+            <Route path='/faculty' element={<TeacherFacultiesPage />} />
             <Route path='/faculty/:id' element={<TeacherFacultyPage />} />
         </Routes>
     )
