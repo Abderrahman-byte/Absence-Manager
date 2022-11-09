@@ -1,20 +1,19 @@
 import React from 'react'
 
-const InputField = ({type = 'text', label, placeholder, name, value, setValue, className='', required=false, errors }) => {
+const TextareaField = ({label, placeholder, name, value, setValue, className='', required=false, errors }) => {
     return (
         <div className={`mb-3 ${className || ''}`}>
             {label ? (
                 <label htmlFor={`${name}-input`} className="form-label">{label}</label>
             ) : null}
-            
-            <input 
-                type={type} 
-                className="form-control" 
+
+            <textarea 
                 id={`${name}-input`} 
+                className='form-control' 
+                value={value} 
+                onChange={e => setValue(name, e.target.value)} 
                 placeholder={placeholder}
-                value={value}
                 required={required}
-                onChange={e => setValue(name, e.target.value)}
             />
 
             {errors.map((error, i) => <div key={i} id={`${name}Help`} className="form-text text-danger">{error.message}</div>)}
@@ -22,4 +21,4 @@ const InputField = ({type = 'text', label, placeholder, name, value, setValue, c
     )
 }
 
-export default InputField
+export default TextareaField

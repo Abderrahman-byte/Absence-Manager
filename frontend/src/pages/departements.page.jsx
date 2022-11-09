@@ -24,7 +24,7 @@ const DepartementsPage = () => {
             return [
                 dep.name,
                 `${hod?.last_name || ''} ${hod?.first_name || ''}`,
-                (<Link to='#' className='btn btn-primary'>Modifier</Link>),
+                (<Link to={`/departements/edit/${dep.id}`} className='btn btn-primary'>Modifier</Link>),
                 (<Link to='#' className='btn btn-danger'>Supprimer</Link>)
             ]
         })

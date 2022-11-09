@@ -1,8 +1,8 @@
 import React from 'react'
 
-const CheckboxField = ({ label, name, value, setValue, classname='', disabled=false }) => {
+const CheckboxField = ({ label, name, value, setValue, className='', disabled=false }) => {
     return (
-        <div className={`mb-3 ${classname || ''}`}>
+        <div className={`mb-3 ${className || ''}`}>
             <div className="form-check">
                 <input 
                     className="form-check-input" 
