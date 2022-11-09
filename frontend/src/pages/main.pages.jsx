@@ -34,7 +34,10 @@ const adminRoutes = [
 	},{
 		label: 'Filières',
 		to: '/faculty',
-	},
+	},{
+		label: 'Modules',
+		to: '/modules'
+	}
 ]
 
 const MainPages = () => {

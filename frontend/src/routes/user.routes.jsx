@@ -1,10 +1,10 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 
-import TeacherElementsPage from '@Pages/TeacherElements.page'
-import TeacherFacultiesPage from '@Pages/TeacherFaculties.page'
-import TeacherElementStatPage from '@Pages/TeacherElementStat.page'
-import TeacherFacultyPage from '@Pages/TeacherFaculty.page'
+import TeacherElementsPage from '@Pages/teacher/TeacherElements.page'
+import TeacherFacultiesPage from '@Pages/teacher/TeacherFaculties.page'
+import TeacherElementStatPage from '@Pages/teacher/TeacherElementStat.page'
+import TeacherFacultyPage from '@Pages/teacher/TeacherFaculty.page'
 
 const UserRoutes = () => {
     return (

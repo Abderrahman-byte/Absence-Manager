@@ -1,18 +1,19 @@
 import React from 'react'
 import { Route, Routes } from 'react-router'
 
-import AccountsPage from '@Pages/accounts.page'
-import DeleteAccountPage from '@Pages/DeleteAccount.page'
-import EditAccountPage from '@Pages/EditAccount.page'
-import CreateAccountPage from '@Pages/createAccount.page'
-import DepartementsPage from '@Pages/departements.page'
-import EditDepartementPage from '@Pages/EditDepartement.page'
-import CreateDepartementPage from '@Pages/CreateDepartement.page'
-import FacultiesPage from '@Pages/Faculties.page'
-import DeleteDepartementPage from '@Pages/DeleteDepartement.page'
-import EditFacultyPage from '@Pages/EditFaculty.page'
-import CreateFacultyPage from '@Pages/CreateFaculty.page'
-import DeleteFacultyPage from '@Pages/DeleteFaculty.page'
+import AccountsPage from '@Pages/admin/accounts/accounts.page'
+import DeleteAccountPage from '@Pages/admin/accounts/DeleteAccount.page'
+import EditAccountPage from '@Pages/admin/accounts/EditAccount.page'
+import CreateAccountPage from '@Pages/admin/accounts/CreateAccount.page'
+import DepartementsPage from '@Pages/admin/departements/departements.page'
+import EditDepartementPage from '@Pages/admin/departements/EditDepartement.page'
+import CreateDepartementPage from '@Pages/admin/departements/CreateDepartement.page'
+import FacultiesPage from '@Pages/admin/faculty/Faculties.page'
+import DeleteDepartementPage from '@Pages/admin/departements/DeleteDepartement.page'
+import EditFacultyPage from '@Pages/admin/faculty/EditFaculty.page'
+import CreateFacultyPage from '@Pages/admin/faculty/CreateFaculty.page'
+import DeleteFacultyPage from '@Pages/admin/faculty/DeleteFaculty.page'
+import ModulesPage from '@Pages/admin/modules/modules.page'
 
 const AdminRoutes = () => {
 	return (
@@ -39,6 +40,8 @@ const AdminRoutes = () => {
 			<Route path='/faculty/edit/:id' element={<EditFacultyPage />} />
 			<Route path='/faculty/delete/:id' element={<DeleteFacultyPage />} />
 			<Route path='/faculty/add' element={<CreateFacultyPage />} />
+
+			<Route path='/modules' element={<ModulesPage />} />
 		</Routes>
 	)
 }
