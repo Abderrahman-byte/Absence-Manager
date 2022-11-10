@@ -1,13 +1,15 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
+import logo from '../../assets/Logo_ESTC.png'
+
 import AccountDropdown from '@Components/AccountDropodown'
 
 const Navbar = ({ navLinks = [], account }) => {
     return (
         <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style={{ width: "280px" }}>
         <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-          <span className="fs-4">LOGO</span>
+          <span className="fs-4">ESTC<br/>Gestion d'absence</span>
         </a>
         <hr/>
         <ul className="nav nav-pills flex-column mb-auto">

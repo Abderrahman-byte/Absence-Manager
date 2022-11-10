@@ -1,4 +1,4 @@
-import { getAccountSearchItems, getDepartementSearchItems } from './search'
+import { getAccountSearchItems, getDepartementSearchItems, getFacultySearchItems } from './search'
 import validators from './validators'
 
 export const editAccountFields = [
@@ -73,7 +73,7 @@ export const facultyFields = [
 	{
 		name: 'name',
 		type: 'text',
-		label: 'Nom de filiere',
+		label: 'Nom de filiére',
 		validators: [validators.required(), validators.minLength(4)],
 	}, {
 		name: 'short_name',
@@ -91,6 +91,26 @@ export const facultyFields = [
 		type: 'textarea',
 		label: 'Description :',
 	},
+]
+
+export const moduleFields = [
+	{
+		name: 'name',
+		type: 'text',
+		label: 'Nom de module',
+		validators: [validators.required(), validators.minLength(4)],
+		required: true
+	},{
+		name: 'faculty',
+		type: 'search-input',
+		label: 'Filiére',
+		getItems: getFacultySearchItems,
+		validators: [validators.required("Le champs de filiére est obligatoire.")]
+	},{
+		name: 'description',
+		type: 'textarea',
+		label: 'Description :'
+	}
 ]
 
 export const validateForm = (fields, formData) => {

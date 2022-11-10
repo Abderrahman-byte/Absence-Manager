@@ -1,5 +1,6 @@
 import { searchAccounts } from '@Services/accounts.admin'
 import { searchDepartement } from '@Services/departements.admin'
+import { searchFaculty } from '@Services/faculty.admin'
 
 export const getAccountSearchItems = async (query, setItems) => {
 	if (!query || query.length <= 0) return setItems([])
@@ -23,6 +24,19 @@ export const getDepartementSearchItems = async (query, setItems) => {
 		return {
 			id: dep.id,
 			name: dep.name
+		}
+	}))
+}
+
+export const getFacultySearchItems = async (query, setItems) => {
+	if (!query || query.length <= 0) return setItems([])
+
+	const data = await searchFaculty(query)
+
+	setItems(data.map(faculty => {
+		return {
+			id: faculty.id,
+			name: faculty.name
 		}
 	}))
 }

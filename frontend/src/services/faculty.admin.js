@@ -45,3 +45,13 @@ export const postFaculty = async (data) => {
         return [null, error?.response?.data]
     }
 }
+
+export const searchFaculty = async (query) => {
+    try {
+        const response = await axiosApi.get(`/admin/faculty?query=${query}`)
+
+        return response.data
+    } catch {}
+
+    return []
+}

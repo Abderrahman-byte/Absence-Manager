@@ -25,7 +25,7 @@ const EditFacultyPage = () => {
         if (!response && !errors) return setErrors([DEFAULT_ERROR_MSG])
         else if (!response) return setErrors(apiErrorsToFormErrors(facultyFields, errors))
 
-        setMessages(['Departement a été enregistré avec succès.'])
+        setMessages(['Filiére a été enregistré avec succès.'])
         setTimeout(() => setMessages([]), 1500)
     }
 

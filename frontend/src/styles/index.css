@@ -11,3 +11,7 @@ body {
     overflow-y: scroll;
     flex: 1;
 }
+
+img {
+    max-width: 100%;
+}
