@@ -43,7 +43,6 @@ class FacultySerializer (serializers.ModelSerializer) :
         write_only_fields = ['departement_id']
 
     def create(self, validated_data):
-        print(validated_data)
         if validated_data.get('departement_id') is not None :
             departement_id = validated_data.pop('departement_id')
             departement = Departement.objects.get(pk=departement_id)
@@ -60,11 +59,29 @@ class FacultySerializer (serializers.ModelSerializer) :
 
 class ModuleSerializer (serializers.ModelSerializer) :
     faculty = FacultySerializer(read_only=True)
+    faculty_id = serializers.IntegerField(write_only=True)
 
     class Meta :
         model = Module
-        fields = ['id', 'name', 'description', 'faculty']
-        read_only_fields = ['id']
+        fields = ['id', 'name', 'description', 'faculty', 'faculty_id']
+        read_only_fields = ['id', 'faculty']
+        write_only_fields = ['faculty_id']
+
+    def create(self, validated_data):
+        if validated_data.get('faculty_id') is not None :
+            faculty_id = validated_data.pop('faculty_id')
+            faculty = Faculty.objects.get(pk=faculty_id)
+            validated_data['faculty'] = faculty
+
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if 'faculty_id' in validated_data :
+            faculty_id = validated_data.pop('faculty_id')
+            faculty = Faculty.objects.get(pk=faculty_id) if faculty_id is not None else None
+            validated_data['faculty'] = faculty
+
+        return super().update(instance, validated_data)
 
 class ModuleElementSerializer (serializers.ModelSerializer):
     module = ModuleSerializer(read_only=True)

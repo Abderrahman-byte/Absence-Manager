@@ -4,16 +4,16 @@ from rest_framework.exceptions import ValidationError, APIException, bad_request
 from rest_framework import viewsets
 
 from backend.account.models import Account
-from backend.modules.models import Departement, Faculty
+from backend.modules.models import Departement, Faculty, Module, ModuleElement
 from backend.account.serializers import AdminAccountSerializer
-from backend.modules.serializers import DepartementSerializer, FacultySerializer
+from backend.modules.serializers import DepartementSerializer, FacultySerializer, ModuleSerializer, ModuleElementSerializer
 from backend.core.pagination import StandardResultsSetPagination
 from backend.core.utils import get_errors_object
 from backend.core.views import AdminOnlyAPIView
 from backend.account.forms import AccountCreationForm
 from backend.core.utils import view_set_to_crud, view_set_to_list_create
+from backend.core.views import SearchMixins
 
-# TODO : CRUD Departements
 # TODO : Add Logging actions
 
 class AccountsAdminViewSet (AdminOnlyAPIView, viewsets.ModelViewSet):
@@ -114,31 +114,38 @@ class AccountAdminSearch (AdminOnlyAPIView) :
         return Response(AdminAccountSerializer(accounts, many=True).data)
 
 
-class DepartementsViewSets (AdminOnlyAPIView, viewsets.ModelViewSet) :
+class DepartementsViewSets (AdminOnlyAPIView, viewsets.ModelViewSet, SearchMixins) :
     serializer_class = DepartementSerializer
+    model_class = Departement
 
     def get_queryset(self):
         return Departement.objects.order_by('id').all()
 
-    def search (self, request, *args, **kwargs) :
-        query = request.query_params.get('query')
-
-        if query is None or query == '' : raise bad_request
-
-        departements = Departement.objects.search(query)
-        return Response(DepartementSerializer(departements, many=True).data)
-
-class FacultyViewSets (AdminOnlyAPIView, viewsets.ModelViewSet) :
+class FacultyViewSets (AdminOnlyAPIView, viewsets.ModelViewSet, SearchMixins) :
     serializer_class = FacultySerializer
+    model_class = Faculty
 
     def get_queryset(self):
         return Faculty.objects.order_by('id').all()
 
+class ModuleViewSet (AdminOnlyAPIView, viewsets.ModelViewSet) :
+    serializer_class = ModuleSerializer
+    pagination_class = StandardResultsSetPagination
+
+    def get_queryset(self):
+        return Module.objects.order_by('id').all()
+
 
 accounts_list_create_view = view_set_to_list_create(AccountsAdminViewSet)
 account_view = view_set_to_crud(AccountsAdminViewSet)
+
 departements_list_create_view = view_set_to_list_create(DepartementsViewSets)
 departement_view = view_set_to_crud(DepartementsViewSets)
 departement_search = DepartementsViewSets.as_view({ 'get': 'search' })
+
 faculty_list_create_view = view_set_to_list_create(FacultyViewSets)
 faculty_view = view_set_to_crud(FacultyViewSets)
+faculty_search = FacultyViewSets.as_view({ 'get': 'search' })
+
+modules_list_create_view = view_set_to_list_create(ModuleViewSet)
+module_view = view_set_to_crud(ModuleViewSet)

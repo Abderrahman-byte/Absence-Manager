@@ -8,6 +8,11 @@ class DepartementManager (models.Manager) :
     def search (self, query:str) :
         return self.filter(name__icontains=query.lower()).all()
 
+class FacultyManager (models.Manager) :
+    def search (self, query:str) :
+        filter = models.Q(name__icontains=query.lower()) | models.Q(short_name__icontains=query.lower)
+        return self.filter(filter).all()
+
 class Departement (models.Model) :
     name = models.CharField("name", unique=True, max_length=100)
     description = models.TextField("description", blank=True, null=True)
@@ -38,6 +43,8 @@ class Faculty (models.Model) :
         blank=True,
         on_delete=models.SET_NULL # maybe be do cascade
     )
+
+    objects = FacultyManager()
 
     class Meta :
         verbose_name = "Faculty"

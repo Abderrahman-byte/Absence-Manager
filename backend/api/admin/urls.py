@@ -12,5 +12,9 @@ urlpatterns = [
     path('departements/<int:pk>', views.departement_view, name='api_admin_departement'),
 
     path('faculty', views.faculty_list_create_view, name='api_admin_faculties'),
+    path('faculty/search', views.faculty_search, name='api_admin_faculty_search'),
     path('faculty/<int:pk>', views.faculty_view, name='api_admin_faculty'),
+
+    path('modules', views.modules_list_create_view, name='api_admin_modules'),
+    path('modules/<int:pk>', views.module_view, name='api_admin_module')
 ]
