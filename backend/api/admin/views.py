@@ -1,6 +1,6 @@
 from django.db.models import Q
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError, APIException, bad_request
+from rest_framework.exceptions import ValidationError, APIException
 from rest_framework import viewsets
 
 from backend.account.models import Account
@@ -128,12 +128,20 @@ class FacultyViewSets (AdminOnlyAPIView, viewsets.ModelViewSet, SearchMixins) :
     def get_queryset(self):
         return Faculty.objects.order_by('id').all()
 
-class ModuleViewSet (AdminOnlyAPIView, viewsets.ModelViewSet) :
+class ModuleViewSet (AdminOnlyAPIView, viewsets.ModelViewSet, SearchMixins) :
     serializer_class = ModuleSerializer
     pagination_class = StandardResultsSetPagination
+    model_class = Module
 
     def get_queryset(self):
         return Module.objects.order_by('id').all()
+
+class ModuleElementViewSet (AdminOnlyAPIView, viewsets.ModelViewSet) :
+    serializer_class = ModuleElementSerializer
+    pagination_class = StandardResultsSetPagination
+
+    def get_queryset(self):
+        return ModuleElement.objects.order_by('id').all()
 
 
 accounts_list_create_view = view_set_to_list_create(AccountsAdminViewSet)
@@ -149,3 +157,7 @@ faculty_search = FacultyViewSets.as_view({ 'get': 'search' })
 
 modules_list_create_view = view_set_to_list_create(ModuleViewSet)
 module_view = view_set_to_crud(ModuleViewSet)
+module_search = ModuleViewSet.as_view({ 'get': 'search' })
+
+elements_list_create_view = view_set_to_list_create(ModuleElementViewSet)
+element_view = view_set_to_crud(ModuleElementViewSet)

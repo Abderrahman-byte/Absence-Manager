@@ -13,6 +13,10 @@ class FacultyManager (models.Manager) :
         filter = models.Q(name__icontains=query.lower()) | models.Q(short_name__icontains=query.lower)
         return self.filter(filter).all()
 
+class ModuleManager (models.Manager) :
+    def search (self, query:str) :
+        return self.filter(name__icontains=query.lower()).all()
+
 class Departement (models.Model) :
     name = models.CharField("name", unique=True, max_length=100)
     description = models.TextField("description", blank=True, null=True)
@@ -62,6 +66,8 @@ class Module (models.Model) :
         verbose_name="faculty",
         on_delete=models.CASCADE
     )
+
+    objects = ModuleManager()
 
     class Meta :
         constraints = [

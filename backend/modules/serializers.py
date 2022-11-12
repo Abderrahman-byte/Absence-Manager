@@ -6,6 +6,8 @@ from backend.account.models import Account
 from backend.account.serializers import AccountSerializer
 from .models import ModuleElement, Module, Faculty, Departement
 
+# ! create and update methods are the same pattern 
+
 class DepartementSerializer (serializers.ModelSerializer) :
     head_of_departement = AccountSerializer(read_only=True)
     head_of_departement_id = serializers.CharField(write_only=True, allow_null=True)
@@ -85,11 +87,42 @@ class ModuleSerializer (serializers.ModelSerializer) :
 
 class ModuleElementSerializer (serializers.ModelSerializer):
     module = ModuleSerializer(read_only=True)
+    professor = AccountSerializer(read_only=True)
+
+    module_id = serializers.IntegerField(write_only=True)
+    professor_id = serializers.CharField(write_only=True)
 
     class Meta :
         model = ModuleElement
-        fields = ['id', 'name', 'description', 'module']
-        read_only_fields = ['id']
+        fields = ['id', 'name', 'description', 'module', 'professor', 'module_id', 'professor_id']
+        read_only_fields = ['id', 'module', 'professor']
+        write_only_fields = ['module_id', 'professor_id']
+
+    def create(self, validated_data):
+        if validated_data.get('module_id') is not None :
+            module_id = validated_data.pop('module_id')
+            module = Module.objects.get(pk=module_id)
+            validated_data['module'] = module
+
+        if validated_data.get('professor_id') is not None:
+            professor_id = validated_data.pop('professor_id')
+            professor = Account.objects.get(pk=professor_id)
+            validated_data['professor'] = professor
+
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if 'module_id' in validated_data :
+            module_id = validated_data.pop('module_id')
+            module = Module.objects.get(pk=module_id) if module_id is not None else None
+            validated_data['module'] = module
+
+        if 'professor_id' in validated_data :
+            professor_id = validated_data.pop('professor_id')
+            professor = Account.objects.get(pk=professor_id) if professor_id is not None else None
+            validated_data['professor'] = professor
+
+        return super().update(instance, validated_data)
 
 class SimpleModuleElementSerializer (serializers.ModelSerializer):
     module = serializers.SlugRelatedField(

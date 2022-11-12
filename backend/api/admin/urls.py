@@ -16,5 +16,10 @@ urlpatterns = [
     path('faculty/<int:pk>', views.faculty_view, name='api_admin_faculty'),
 
     path('modules', views.modules_list_create_view, name='api_admin_modules'),
-    path('modules/<int:pk>', views.module_view, name='api_admin_module')
+    path('modules/search', views.module_search, name='api_admin_modules_search'),
+    path('modules/<int:pk>', views.module_view, name='api_admin_module'),
+
+    path('elements', views.elements_list_create_view, name='api_admin_elements'),
+    # path('modules/search', views.module_search, name='api_admin_modules_search'),
+    path('elements/<int:pk>', views.element_view, name='api_admin_elements'),
 ]
