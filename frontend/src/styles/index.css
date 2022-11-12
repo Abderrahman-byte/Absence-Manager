@@ -15,3 +15,8 @@ body {
 img {
     max-width: 100%;
 }
+
+.form-card {
+    max-width: 700px;
+    width: 90%;
+}

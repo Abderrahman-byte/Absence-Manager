@@ -18,7 +18,7 @@ const TeacherElementsPage = () => {
 
     return (
         <div className='TeacherElementsPage'>
-            <h1 className='mb-5'>Les elements que vous enseignez :</h1>
+            <h3 className='mb-5'>Les elements que vous enseignez :</h3>
             <div className='elements-list d-flex flex-row flex-wrap align-items-stretch'>
                 {elements.map(data => <ElementCard key={data.id} {...data} />)}
             </div>

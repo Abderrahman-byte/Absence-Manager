@@ -37,6 +37,9 @@ const adminRoutes = [
 	},{
 		label: 'Modules',
 		to: '/modules'
+	}, {
+		label: 'Elements des Modules',
+		to: '/elements'
 	}
 ]
 

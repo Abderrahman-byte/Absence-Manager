@@ -17,6 +17,10 @@ import ModulesPage from '@Pages/admin/modules/modules.page'
 import EditModulePage from '@Pages/admin/modules/EditModule.page'
 import CreateModulePage from '@Pages/admin/modules/CreateModule.page'
 import DeleteModulePage from '@Pages/admin/modules/DeleteModule.page'
+import ElementsPage from '@Pages/admin/elements/elements.page'
+import EditElementPage from '@Pages/admin/elements/EditElement.page'
+import CreateElementPage from '@Pages/admin/elements/CreateElement.page'
+import DeleteElementPage from '@Pages/admin/elements/DeleteElement.page'
 
 const AdminRoutes = () => {
 	return (
@@ -48,6 +52,11 @@ const AdminRoutes = () => {
 			<Route path='/modules/edit/:id' element={<EditModulePage />} />
 			<Route path='/modules/add' element={<CreateModulePage />} />
 			<Route path='/modules/delete/:id' element={<DeleteModulePage />} />
+
+			<Route path='/elements' element={<ElementsPage />} />
+			<Route path='/elements/edit/:id' element={<EditElementPage />} />
+			<Route path='/elements/delete/:id' element={<DeleteElementPage />} />
+			<Route path='/elements/add' element={<CreateElementPage />} />
 		</Routes>
 	)
 }

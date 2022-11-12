@@ -47,3 +47,13 @@ export const postModule = async (data) => {
         return [null, error?.response?.data]
     }
 }
+
+export const searchModules = async (query) => {
+    try {
+        const response = await axiosApi.get(`/admin/modules/search?query=${query}`)
+        console.log('searchModule', response)
+        return response?.data
+    } catch {}
+
+    return []
+}
