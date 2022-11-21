@@ -9,6 +9,8 @@ export const axiosApi = axios.create({
 
 axiosApi.interceptors.request.use(
     async (config) => {
+        config.headers = {...config.headers}
+
         const authTokenStr = localStorage.getItem(JWT_TOKEN_KEY)
 
         // NOTE : This line an error and it must be fixed
