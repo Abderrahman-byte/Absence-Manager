@@ -1,6 +1,6 @@
 from django.db.models import Q
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError, APIException
+from rest_framework.exceptions import ValidationError, APIException, bad_request
 from rest_framework import viewsets
 
 from backend.account.models import Account
@@ -13,6 +13,8 @@ from backend.core.views import AdminOnlyAPIView
 from backend.account.forms import AccountCreationForm
 from backend.core.utils import view_set_to_crud, view_set_to_list_create
 from backend.core.views import SearchMixins
+from backend.core.utils import parse_excel, check_filetype
+from backend.students.models import Student
 
 # TODO : Add Logging actions
 
@@ -54,6 +56,7 @@ class AccountsAdminViewSet (AdminOnlyAPIView, viewsets.ModelViewSet):
     def get_queryset(self):
         return Account.objects.all()
 
+# TODO : refactor
 class AccountAdminSearch (AdminOnlyAPIView) :
     """
     View search for accounts."""
@@ -142,6 +145,23 @@ class ModuleElementViewSet (AdminOnlyAPIView, viewsets.ModelViewSet) :
 
     def get_queryset(self):
         return ModuleElement.objects.order_by('id').all()
+
+class StudentsView (AdminOnlyAPIView) :
+    def post(self, request, *args, **kwargs) :
+        file = request.FILES.get('file')
+
+        if not check_filetype(file, ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']) :
+            raise APIException(detail='Unexpected file type.', code='unexpected_file')
+
+        data = parse_excel(file)
+        
+        for row in data :
+            faculty = Faculty.objects.get(short_name=row.pop('faculty_short_name')) 
+            row['faculty'] = faculty
+            student = Student(**row)
+            student.save()
+        
+        return Response({})
 
 
 accounts_list_create_view = view_set_to_list_create(AccountsAdminViewSet)

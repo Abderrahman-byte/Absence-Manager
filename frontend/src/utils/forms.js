@@ -117,7 +117,7 @@ export const elementFields = [
 	{
 		name: 'name',
 		type: 'text',
-		label: 'Nom de module',
+		label: 'Nom d\'élement',
 		validators: [validators.required(), validators.minLength(4)],
 		required: true
 	},{

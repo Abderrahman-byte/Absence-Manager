@@ -24,7 +24,7 @@ const TeacherFacultyPage = () => {
             <div className='card'>
                 <div className='card-body'>
                     <h3 className='card-title'>{faculty.name}</h3>
-                    <h4 className=''>Département : {faculty.departement}</h4>
+                    <h4 className=''>Département : {faculty.departement.name}</h4>
                 </div>
             </div>
             

@@ -8,8 +8,7 @@ const FacultyCard = ({ id, name, short_name, departement }) => {
         <div className='FacultyCard card'>
             <div className='card-body'>
                 <h4 className='card-title'>{short_name || name}</h4>
-                <p className='card-subtitle mb-2 text-muted'>Département : {departement}</p>
-
+                <p className='card-subtitle mb-2 text-muted'>Département : {departement.name}</p>
                 <Link className='btn btn-primary' to={`/faculty/${id}`}>Details</Link>
             </div>
         </div>

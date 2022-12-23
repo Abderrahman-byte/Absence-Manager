@@ -12,9 +12,7 @@ axiosApi.interceptors.request.use(
         config.headers = {...config.headers}
 
         const authTokenStr = localStorage.getItem(JWT_TOKEN_KEY)
-
-        // NOTE : This line an error and it must be fixed
-        // READ More : https://github.com/axios/axios/issues/5143
+        
         if (!authTokenStr) return config
 
         const authToken = JSON.parse(authTokenStr)
